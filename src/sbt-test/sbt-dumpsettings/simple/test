@@ -1,0 +1,4 @@
+> dumpSettings
+$ exists ./dumpsettings.sh
+
+> check

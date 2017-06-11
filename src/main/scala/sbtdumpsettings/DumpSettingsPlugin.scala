@@ -34,7 +34,7 @@ object DumpSettingsPlugin extends sbt.AutoPlugin {
       prop.store(new java.io.FileOutputStream(file), null)
     }
     val current = if (file.exists) readProp
-                  else 0
+    else 0
     writeProp(current + increment)
     current
   }
@@ -42,13 +42,13 @@ object DumpSettingsPlugin extends sbt.AutoPlugin {
   def dumpSettingsScopedSettings(conf: Configuration): Seq[Def.Setting[_]] = inConfig(conf)(Seq(
     dumpSettings :=
       DumpSettings(
-        { resourceManaged.value / "sbt-dumpsettings" },
+        { baseDirectory.value },
         dumpSettingsRenderers.value,
         dumpSettingsKeys.value,
         thisProjectRef.value,
         state.value,
         streams.value.cacheDirectory
-    ),
+      ),
     dumpSettingsValues :=
       DumpSettings.results(dumpSettingsKeys.value, thisProjectRef.value, state.value),
     resourceGenerators ++= {
@@ -58,7 +58,7 @@ object DumpSettingsPlugin extends sbt.AutoPlugin {
   ))
 
   def dumpSettingsDefaultSettings: Seq[Setting[_]] = Seq(
-    dumpSettingsKeys    := Seq(name, version, scalaVersion, sbtVersion),
+    dumpSettingsKeys := Seq(name, version, scalaVersion, sbtVersion),
     dumpSettingsBuildNumber := buildNumberTask(baseDirectory.value, 1),
     dumpSettingsRenderers := Seq(BashRenderer(), JsonRenderer())
   )

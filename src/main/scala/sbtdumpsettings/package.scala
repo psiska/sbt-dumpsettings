@@ -22,14 +22,13 @@ package object sbtdumpsettings {
     }
 
     private[sbtdumpsettings] final case class Constant[A](tuple: (String, A))(implicit val manifest: Manifest[A])
-    extends Entry[A]
+      extends Entry[A]
 
-    private[sbtdumpsettings] final case class Mapped[A, B](from: Entry[A], fun: ((String, A)) => (String, B))
-                                                 (implicit val manifest: Manifest[B])
-    extends Entry[B]
+    private[sbtdumpsettings] final case class Mapped[A, B](from: Entry[A], fun: ((String, A)) => (String, B))(implicit val manifest: Manifest[B])
+        extends Entry[B]
 
     private[sbtdumpsettings] final case class Action[A](name: String, fun: () => A)(implicit val manifest: Manifest[A])
-    extends Entry[A]
+      extends Entry[A]
 
     sealed trait Entry[A] {
       private[sbtdumpsettings] def manifest: Manifest[A]

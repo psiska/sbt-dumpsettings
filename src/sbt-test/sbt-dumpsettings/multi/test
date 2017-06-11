@@ -1,0 +1,6 @@
+> project root
+  
+> dumpSettings
+$ exists app/dumpsettings.sh
+
+> check

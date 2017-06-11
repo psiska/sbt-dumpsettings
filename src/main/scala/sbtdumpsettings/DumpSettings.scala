@@ -6,8 +6,8 @@ case class DumpSettingsResult(identifier: String, value: Any, typeExpr: TypeExpr
 
 object DumpSettings {
   def apply(dir: File, renderers: Seq[DumpSettingsRenderer],
-            keys: Seq[DumpSettingsKey],
-            proj: ProjectRef, state: State, cacheDir: File): Seq[File] =
+    keys: Seq[DumpSettingsKey],
+    proj: ProjectRef, state: State, cacheDir: File): Seq[File] =
     DumpSettingsTask(dir, renderers, keys, proj, state, cacheDir).files
 
   private def extraKeys(): Seq[DumpSettingsKey] = {
@@ -36,7 +36,7 @@ object DumpSettings {
         case DumpSettingsKey.Action(name, fun) => Some(name -> fun.apply)
         case DumpSettingsKey.Mapped(from, fun) => entry(from).map { r => fun((r.identifier, r.value.asInstanceOf[A])) }
       }
-      result.map { case (identifier,value) => DumpSettingsResult(identifier, value, typeExpr) }
+      result.map { case (identifier, value) => DumpSettingsResult(identifier, value, typeExpr) }
     }
 
     distinctKeys.flatMap(entry(_))
@@ -67,13 +67,14 @@ object DumpSettings {
       })
   }
 
-
-  private case class DumpSettingsTask(dir: File,
-                                   renderers: Seq[DumpSettingsRenderer],
-                                   keys: Seq[DumpSettingsKey],
-                                   proj: ProjectRef,
-                                   state: State,
-                                   cacheDir: File) {
+  private case class DumpSettingsTask(
+    dir: File,
+      renderers: Seq[DumpSettingsRenderer],
+      keys: Seq[DumpSettingsKey],
+      proj: ProjectRef,
+      state: State,
+      cacheDir: File
+  ) {
 
     import FileInfo.hash
     import Tracked.inputChanged
